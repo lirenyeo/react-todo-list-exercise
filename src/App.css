@@ -1,33 +1,207 @@
-.App {
-  text-align: center;
+html {
+  box-sizing: border-box;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  background: #09091f;
   color: white;
+  font-size: 20px;
+  font-family: 'Bitter', serif;
+  letter-spacing: 1px;
 }
 
-.App-link {
-  color: #61dafb;
+#list {
+  width: 100%;
+  max-width: 495px;
+  min-height: 60px;
+  margin: auto;
+  margin-top: 1em;
+  padding: 0;
+  background: hsl(236, 32%, 26%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#list li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 60px;
+  width: 100%;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  transition: opacity 300ms linear;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1em;
+}
+
+#list li .delete-btn {
+  background: #fc2f70;
+  padding: 4px 8px;
+  line-height: 20px;
+  text-align: center;
+  font-size: .55em;
+  font-weight: 900;
+  border-radius: 8px;
+  color: hsl(236, 32%, 26%);
+  transition: .2s ease;
+}
+
+#list li .delete-btn:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+#list li:hover {
+  background: #484b6f;
+}
+
+#list li:not(:last-child) {
+  border-bottom: solid 1px #7b7b7b;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 60px;
+  padding: 2px;
+  margin: auto;
+  margin-top: 10%;
+}
+
+button {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: #fc2f70;
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+  height: 100%;
+  width: 200px;
+  transition: .45s;
+}
+
+button::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 100%;
+  right: 100%;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: #bcc1ff;
+  transform-origin: center;
+  transform: translate3d(50%, -50%, 0) scale3d(0, 0, 0);
+  transition: transform 0.45s ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+  color: #161616;
+}
+
+button:hover::before {
+  transform: translate3d(50%, -50%, 0) scale3d(15, 15, 15);
+}
+
+button:disabled {
+  background: #464646;
+  text-decoration: line-through;
+}
+
+input {
+  color: white;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: hsl(236, 32%, 26%);
+  padding: 0.35em 0.45em;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: hsla(0, 0%, 100%, 0.6);
+}
+
+.form-span {
+  position: absolute;
+  background-color: #fc2f70;
+  transform-origin: center;
+  transition: transform 0.5s ease;
+}
+
+.bottom,
+.top {
+  height: 1px;
+  left: 0;
+  right: 0;
+  transform: scaleX(0);
+}
+
+.left,
+.right {
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  transform: scaleY(0);
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+input:focus ~ .top,
+input:focus ~ .bottom {
+  transform: scaleX(1);
+}
+
+input:focus ~ .left,
+input:focus ~ .right {
+  transform: scaleY(1);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.troll {
+  animation: spin .15s infinite;
+}
+
+.is-done {
+  text-decoration: line-through;
 }

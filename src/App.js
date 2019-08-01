@@ -1,48 +1,46 @@
 import React, { Component } from 'react'
 import './App.css'
-import ToDo from './ToDo'
-import TaskForm from './Form'
+import TodoItem from './TodoItem'
+import TodoForm from './TodoForm'
 
 class App extends Component {
   state = {
     todos: [
       { id: 1, task: 'Walk the dog', done: false },
-      { id: 2, task: 'Water the flower', done: true }
+      { id: 2, task: 'Water the flower', done: false },
+      { id: 3, task: 'Finish React To Do List', done: false }
     ]
   }
 
-  addTask = text => {
+  toggleDone = id => {
     const { todos } = this.state
-    const newTask = {
-      id: todos.length + 1,
-      task: text,
-      done: false
-    }
-    this.setState({
-      todos: [newTask, ...todos]
-    })
-  }
 
-  deleteTask = id => {
-    const { todos } = this.state
-    const updatedTodos = todos.filter(item => item.id != id)
-    this.setState({
-      todos: updatedTodos
-    })
-  }
+    // targetItem is object
+    const targetItem = todos.find(item => item.id == id)
 
-  toggleTask = id => {
-    const { todos } = this.state
-    const updatedTodos = todos.filter(item => item.id != id)
-    const task = todos.find(item => item.id == id)
+    // otherItems is array
+    const otherItems = todos.filter(item => item.id != id)
+
     this.setState({
       todos: [
-        ...updatedTodos,
+        ...otherItems,
         {
-          ...task,
-          done: !task.done
+          ...targetItem, // id, task, done
+          done: !targetItem.done
         }
       ]
+    })
+  }
+
+  deleteItem = id => {
+    this.setState({
+      todos: this.state.todos.filter(item => item.id != id)
+    })
+  }
+
+  addItem = item => {
+    this.setState({
+      todos: [...this.state.todos, item]
     })
   }
 
@@ -51,17 +49,32 @@ class App extends Component {
 
     return (
       <div>
-        <h1>To Do List</h1>
-        <ul>
-          {todos.map(todo => (
-            <ToDo
-              deleteTask={this.deleteTask}
-              toggleTask={this.toggleTask}
-              todo={todo}
-            />
-          ))}
+        <TodoForm addItem={this.addItem} />
+        <ul id="list">
+          {/* Display Not-done tasks */}
+          {todos
+            .filter(todo => !todo.done)
+            .map(todo => (
+              <TodoItem
+                toggleDone={this.toggleDone}
+                deleteItem={this.deleteItem}
+                key={todo.id}
+                todo={todo}
+              />
+            ))}
+
+          {/* Display done tasks */}
+          {todos
+            .filter(todo => todo.done)
+            .map(todo => (
+              <TodoItem
+                toggleDone={this.toggleDone}
+                deleteItem={this.deleteItem}
+                key={todo.id}
+                todo={todo}
+              />
+            ))}
         </ul>
-        <TaskForm addTask={this.addTask} />
       </div>
     )
   }
